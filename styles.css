@@ -1,0 +1,57 @@
+*{
+    box-sizing: border-box;
+}
+body{
+    padding-top: 30px;
+}
+.table{
+    border: 2px solid black;
+    width: max-content;
+}
+.table .line{
+    display: flex;
+    cursor: pointer;
+}
+
+.table .line:nth-of-type(2n){
+    background-color: rgb(197 199 195);
+}
+.table .line:not(:last-of-type){
+    border-bottom: 2px solid black;;
+}
+.table .line > div{
+    padding-left: 15px;
+    padding-right: 15px;
+}
+.table .line .code{
+    min-width: 70px;
+}
+.table .line .value{
+    border-left: 2px solid black;
+    border-right: 2px solid black;
+    min-width: 100px;
+}
+.table .line .difference{
+    margin-left: auto;
+    text-align: right;
+}
+.green{
+    color: green;
+}
+.red{
+    color: red;
+}
+.table .line:hover{
+    background-color: bisque;
+}
+.line .tooltip{
+    display:none;
+    background-color:cornflowerblue;
+    border-radius: 10px;
+    padding: 5px;
+}
+.line:hover .tooltip{
+    display:block;
+    position:fixed;
+    overflow:hidden;
+}
