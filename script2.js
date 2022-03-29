@@ -9,6 +9,7 @@ async function getCurrencyData(url, prevDays = 0) {
 
     if (response.ok) {
         let result = await response.json();
+        
         Object.entries(result.Valute).forEach(([key, value]) => {
             if (!currencyDataObj[key]) {
                 currencyDataObj[key] = [];
@@ -18,6 +19,7 @@ async function getCurrencyData(url, prevDays = 0) {
             }
         });
         if (prevDays === 0) {
+            // console.log(currencyDataObj);
             render(currencyDataObj);
             return;
         } else {
@@ -27,33 +29,37 @@ async function getCurrencyData(url, prevDays = 0) {
     }
 }
 
-// function transformData(arr){
 
-// }
 
 
 
 function render(obj) {
+    console.log(obj);
+    // console.log(Object.keys(obj).length);
     Object.entries(obj).forEach(([key, value]) => {
-        // console.log(value);
+       
         value.forEach(item => {
-            Object.entries(item).forEach(([key, value]) => {
-                
-                let currentPercents = countPercentDifference(value);
+            // console.log(item);
+            Object.entries(item).forEach(([key, value], index, arr) => {
+                let currentPercents = Number(countPercentDifference(value));
                 let colorClass = '';
+                let symbol = '';
 
                 if (currentPercents < 0) {
-                    currentPercents = `${currentPercents}`;
+                    currentPercents = Math.abs(currentPercents);
+                    symbol = '+';
                     colorClass = 'green';
-                } if (currentPercents > 0) {
-                    currentPercents = `${currentPercents}`;
+                }else if (currentPercents > 0) {
+                    currentPercents = currentPercents;
+                    symbol = '-';
                     colorClass = 'red';
                 }
+
                 let html = `
                 <div class="line">
                     <div class="code">${value.CharCode}</div>
                     <div class="value">${value.Value}</div>
-                    <div class="difference ${colorClass}">${currentPercents}%</div>
+                    <div class="difference ${colorClass}">${symbol}${currentPercents}%</div>
                     <span class="tooltip">${value.Name}</span>
                 </div>
             `;
@@ -64,8 +70,8 @@ function render(obj) {
 }
 
 function countPercentDifference(obj){
-    let percent = obj.Previous / 100;
-    return ((100 - obj.Value / percent)).toFixed(2) ;
+    let percent = (Number(obj.Previous) / 100);
+    return ((100 - Number(obj.Value) / percent)).toFixed(2) ;
 }
 
 table.addEventListener('mousemove', (e) => {
